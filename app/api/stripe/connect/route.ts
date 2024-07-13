@@ -1,10 +1,11 @@
 import prisma from "@/app/utils/db";
 import { stripe } from "@/app/utils/stripe";
+import { headers } from "next/headers";
 
 export async function POST(req: Request) {
   const body = await req.text();
 
-  const signature = req.headers.get("Stripe-Signature") as string;
+  const signature = headers().get("Stripe-Signature") as string;
 
   let event;
 
@@ -34,7 +35,6 @@ export async function POST(req: Request) {
               : true,
         },
       });
-      console.log("Account updated successfully:", data);
       break;
     }
     default: {
