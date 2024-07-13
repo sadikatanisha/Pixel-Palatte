@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import prisma from "../utils/db";
 import SettingsForm from "../components/form/SettingsForm";
-
+import { unstable_noStore as noStore } from "next/cache";
 const getData = async (userId: string) => {
   const data = await prisma.user.findUnique({
     where: { id: userId },
@@ -16,6 +16,7 @@ const getData = async (userId: string) => {
 };
 
 const page = async () => {
+  noStore();
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   if (!user) {

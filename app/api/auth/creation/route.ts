@@ -2,18 +2,20 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import prisma from "../../../utils/db";
 import { NextResponse } from "next/server";
 import { stripe } from "@/app/utils/stripe";
+
+import { unstable_noStore as noStore } from "next/cache";
+
 export async function GET() {
+  noStore();
+
   try {
-    console.log("Initializing Kinde session...");
     const { getUser } = getKindeServerSession();
     const user = await getUser();
-    console.log("User retrieved:", user);
 
     if (!user || user == null || !user.id) {
       throw new Error("User information is missing...");
     }
 
-    console.log("Checking user in database...");
     let dbUser = await prisma.user.findUnique({
       where: {
         id: user.id,

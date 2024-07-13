@@ -2,7 +2,7 @@ import { BuyProduct } from "@/app/actions";
 import { ProductDescription } from "@/app/components/ProductDescription";
 import { BuyButton } from "@/app/components/SubmitButtons";
 import prisma from "@/app/utils/db";
-import { Button } from "@/components/ui/button";
+import { unstable_noStore as noStore } from "next/cache";
 import {
   Carousel,
   CarouselContent,
@@ -39,6 +39,7 @@ const getData = async (id: string) => {
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
+  noStore();
   const data = await getData(params.id);
   return (
     <section className="max-w-7xl mx-auto lg:px-8 lg:grid lg:grid-rows-1 lg:grid-cols-7 lg:gap-x-8 lg:gap-y-10 xl:gap-x-16">
