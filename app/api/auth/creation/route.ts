@@ -51,7 +51,11 @@ export async function GET() {
     }
 
     console.log("User found/created:", dbUser);
-    return NextResponse.redirect("http://localhost:3000");
+    return NextResponse.redirect(
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : "https://pixel-palatte.vercel.app/"
+    );
   } catch (error) {
     console.error("Error in API route:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
